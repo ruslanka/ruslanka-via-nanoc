@@ -1,0 +1,777 @@
+#sidebar_content.abs
+  #sidebar_content_inner
+    %ul#sidebar_menu
+      %li#sidebar_menu_home
+        %a{:href => "/"}
+          %span.abs>
+          Главная
+      %li
+        %a{:href => "#"} Заметки
+        %ul
+          - items.select{ |itm| itm[:source_host] }.inject( {} ){ |result,itm|
+          - result.update( { itm[:created_at].year => [itm] } ){ |k,o,n| o + n }
+          - }.sort_by{ |year,itms| year }.reverse.each{ |year,itms|
+          %li
+            %a{:href => "#"}
+              = year
+              год
+            %ul
+              - itms.inject( {} ){ |res,itm|
+              - res.update( itm[:created_at].month => [itm] ){ |k,o,n| o + n }
+              - }.sort_by{ |month,its| month }.reverse.each{ |month, its|
+              %li
+                %a{:href => "#"}
+                  = %w{Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Ноябрь Декабрь}[month-1]
+                %ul
+                  - its.sort_by{ |it| it[:created_at] }.reverse.each{ |it|
+                  %li>
+                    %a{:href => it.path}
+                      = it[:title]
+                  - }
+              - }
+          - }
+      %li
+        %a{:href => "#"} История
+        %ul
+          - timeline = ["Античность","Средние века", "Возрождение", "Новое время","Новейшее время"]
+          - items.select{ |itm| itm[:age] }.inject( {} ){ |result,itm|
+          - result.update( { itm[:age] => [itm] } ){ |k,o,n| o + n }
+          - }.sort_by{ |age, itms| timeline.index(age) }.each{ |age, itms|
+          %li
+            %a{:href => "#"}
+              = age
+            %ul
+              - itms.sort_by{ |itm| itm[:title] }.each{ |itm|
+              %li
+                %a{:href => itm.path}
+                  = itm[:title]
+              - }
+          - }
+      %li
+        %a{:href => "#"} Билеты
+        %ul
+          - items.select{ |itm| itm[:university] }.inject( {} ){ |result,itm|
+          - result.update( { itm[:university] => [itm] } ){ |k,o,n| o + n }
+          - }.sort_by{ |university,itms| university }.each{ |university, itms|
+          %li
+            %a{:href => "#"}
+              = university
+            %ul
+              - itms.select{ |itm| itm[:year] }.inject( {} ){ |result,itm|
+              - result.update( { itm[:year] => [itm] } ){ |k,o,n| o + n }
+              - }.sort_by{ |year,its| year }.each{ |year, its|
+              %li
+                %a{:href => "#"}
+                  = year
+                %ul
+                  - its.select{ |itm| itm[:discipline] }.inject( {} ){ |result,itm|
+                  - result.update( { itm[:discipline] => [itm] } ){ |k,o,n| o + n }
+                  - }.sort_by{ |discipline,s| discipline }.each{ |discipline, s|
+                  %li
+                    %a{:href => "#"}
+                      = discipline
+                    %ul
+                      - s.each{ |itm|
+                      %li
+                        %a{:href => itm.path}
+                          = itm[:title]
+                      - }
+                  - }
+              - }
+          - }
+      /
+        %li
+          %a{:href => "#"} Глоссарий
+          %ul
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+      /
+        %li
+          %a{:href => "#"} Оружие
+          %ul
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+            %li
+              %a{:href => "#"} Secondary Link Title Here
+              %ul
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                %li
+                  %a{:href => "#"} Tertiary Link Title Here
+                  %ul
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+                    %li
+                      %a{:href => "#"} Quaternary Link Title Here
+      /
+        %li
+          %a{:href => "#"} Литература
+        %li
+          %a{:href => "#"} Авторы
+      %li
+        %a{:href => "/links/"} Ссылки
+

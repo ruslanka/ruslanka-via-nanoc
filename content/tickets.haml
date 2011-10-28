@@ -1,0 +1,20 @@
+---
+title:      Вопросы к экзаменам различных ВУЗов
+changefreq: daily
+---
+%h1= item[:title]
+- items.select{ |itm| itm[:university] }.inject( {} ){ |result,itm|
+-   result.update( { itm[:university] => [itm] } ){ |k,o,n| o + n }
+- }.sort_by{ |university,itms| university }.each{ |university, itms|
+%h2= university
+- itms.select{ |itm| itm[:university] }.inject( {} ){ |result,itm|
+-   result.update( { itm[:year] => [itm] } ){ |k,o,n| o + n }
+- }.sort_by{ |year,its| year }.each{ |year, its|
+%h3= year
+%ul
+  - its.inject( {} ){ |res,itm| res.update( itm[:discipline] => [itm] ){ |k,o,n| o + n } }.sort_by{ |disc,its| disc }.each{ |disc, is|
+  %li #{disc} (#{is.map{ |i| %Q'<a href="%s">%s</a>' % [i.path, i[:title]] }.join(", ") })
+  -}
+-}
+-}
+

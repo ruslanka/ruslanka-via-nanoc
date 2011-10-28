@@ -1,0 +1,60 @@
+!!! 5
+%html{:lang => "ru"}
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "content-type"}/
+    %meta{:content => "ie=edge", "http-equiv" => "x-ua-compatible"}/
+    %title
+      = item[:title] + " - RUslanka.ru"
+    %meta{:content => "yes", :name => "apple-mobile-web-app-capable"}/
+    %meta{:content => "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no", :name => "viewport"}/
+    %link{:href => "/assets/stylesheets/master.css", :rel => "stylesheet"}/
+    /[if IE 8]
+      %link{:href => "/assets/stylesheets/ie8.css", :rel =>"stylesheet" }/
+    /[if !IE]
+      %script{:src => "/assets/javascripts/iscroll.js"}
+    %script{:src => "/assets/javascripts/jquery.js"}
+    %script{:src => "/assets/javascripts/master.js"}
+    %link{:href => "/favicon.ico", :rel => "icon", :type => "image/x-icon"}/
+    %link{:href => "/favicon.ico", :rel => "shortcut icon", :type => "image/x-icon"}/
+  %body
+    #main.abs
+      .abs.header_upper.chrome_light
+        = russian_path item
+      .abs.header_lower.chrome_dark
+        = render 'menubar'
+        /
+          <a href="javascript:window.history.back();" class="float_left icon icon_light_arrow_left" title="Назад"></a>
+          <a href="javascript:window.history.forward();" class="float_right icon icon_light_arrow_right" title="Вперед"></a>
+      #main_content.abs
+        #main_content_inner
+          = yield
+      .abs.footer_lower.chrome_light
+        = add_follow_button(:vkontakte, "ВКонтакте")
+        = add_follow_button(:odnoklassniki, "Одноклассники")
+        = add_follow_button(:moimir, "Мой Мир@Mail.ru")
+        = add_follow_button(:yaru, "Я.ru")
+        = add_follow_button(:lj, "LiveJournal")
+        = add_follow_button(:twitter, "Twitter")
+        = add_follow_button(:facebook, "facebook")
+    #sidebar.abs
+      %span#nav_arrow
+      .abs.header_upper.chrome_light
+        %a{:href => "/", :title => "Главная"}
+          %img{:alt => "RUslanka.RU", :src => "/assets/images/logo.png"}/
+      %form.abs.header_lower.chrome_dark{:action => "http://yandex.ru/sitesearch", :target => "_blank"}
+        %input{:name => "searchid", :type => "hidden", :value => "1786024"}/
+        %input#q{:name => "text", :placeholder => "Поиск по сайту...", :type => "search"}/
+      = render "sidebar"
+      .abs.footer_lower.chrome_light
+        %a.icon.icon_cc{:href => "http://creativecommons.org/licenses/by-sa/3.0/deed.ru", :rel => "license", :title => "Это произведение доступно по лицензии Creative Commons Attribution-ShareAlike (Атрибуция — С сохранением условий) 3.0 Непортированная"}
+        %a.icon.icon_by{:href => "http://ru.wikipedia.org/wiki/%D0%90%D1%82%D1%80%D0%B8%D0%B1%D1%83%D1%86%D0%B8%D1%8F_(%D0%B0%D0%B2%D1%82%D0%BE%D1%80%D1%81%D0%BA%D0%BE%D0%B5_%D0%BF%D1%80%D0%B0%D0%B2%D0%BE)", :title => "Обязательно указывайте автора"}
+        %a.icon.icon_sa{:href => "http://ru.wikipedia.org/wiki/Share-alike", :title => "Распространяйте с сохранением лицензии"}
+    / Yandex.Metrika counter
+    %div{:style => "display:none;"}
+      :javascript
+        (function(w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter10429504 = new Ya.Metrika({id:10429504, enableAll: true}); } catch(e) { } }); })(window, "yandex_metrika_callbacks");    %script{:defer => "defer", :src => "//mc.yandex.ru/metrika/watch.js", :type => "text/javascript"}
+    %noscript
+      %div
+        %img{:alt => "", :src => "//mc.yandex.ru/watch/10429504", :style => "position:absolute; left:-9999px;"}/
+    / /Yandex.Metrika counter
+

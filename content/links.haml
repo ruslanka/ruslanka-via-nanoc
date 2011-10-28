@@ -1,0 +1,9 @@
+---
+title:      Подборка ссылок на историческую тематику
+changefreq: daily
+---
+%div{:align => "center"}
+  - items.select{ |itm| itm[:screenshot] }.sort_by{ |itm| itm[:created_at] }.reverse.each{ |itm|
+  = itm.compiled_content
+  - }
+

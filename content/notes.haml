@@ -1,0 +1,20 @@
+---
+title:      Все исторические заметки
+changefreq: daily
+---
+%h1= item[:title]
+- items.select{ |itm| itm[:source_host] }.inject( {} ){ |result,itm|
+-  result.update( { itm[:created_at].year => [itm] } ){ |k,o,n| o + n }
+-}.sort_by{ |year,itms| year }.reverse.each{ |year,itms|
+%h2 #{year} год
+- itms.inject( {} ){ |res,itm|
+-  res.update( itm[:created_at].month => [itm] ){ |k,o,n| o + n }
+-}.sort_by{ |month,its| month }.reverse.each{ |month, its|
+%h3= %w{Январь Февраль Март Апрель Май Июнь Июль Август Сентябрь Ноябрь Декабрь}[month-1]
+%ul
+  - its.sort_by{ |it| it[:created_at] }.reverse.each{ |it|
+  %li #{it[:created_at].strftime("%d.%m.%Y")} #{link_to( it[:title], it)}
+  - }
+- }
+- }
+

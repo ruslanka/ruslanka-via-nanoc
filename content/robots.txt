@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /asserts
+Sitemap: http://ruslanka.github.com/sitemap.xml
+

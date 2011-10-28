@@ -1,0 +1,136 @@
+#!/usr/bin/env ruby
+
+# A few helpful tips about the Rules file:
+#
+# * The string given to #compile and #route are matching patterns for
+#   identifiers--not for paths. Therefore, you can't match on extension.
+#
+# * The order of rules is important: for each item, only the first matching
+#   rule is applied.
+#
+# * Item identifiers start and end with a slash (e.g. "/about/" for the file
+#   "content/about.html"). To select all children, grandchildren, ... of an
+#   item, use the pattern "/about/*/"; "/about/*" will also select the parent,
+#   because "*" matches zero or more characters.
+
+#----------------------------------------------------------
+# Routes
+#----------------------------------------------------------
+
+route '/(robots|sitemap)/' do
+  [ item.identifier.chop, item[:extension] ].join(".")
+end
+
+route '/assets/*' do
+  [ item.identifier.chop, item[:extension] ].join(".")
+end
+
+route '/(history|tickets|notes|links)/' do
+  item.identifier + 'index.html'
+end
+
+route '/links/*' do
+  "/links/#{item[:title].dirify}.html"
+end
+
+route '/notes/*' do
+  "/notes/#{item[:created_at].strftime('%Y/%m/%d')}/#{item[:title].dirify}.html"
+end
+
+route '/history/*' do
+  "/history/#{ item[:age].dirify }/#{ item[:title].dirify }.html"
+end
+
+route '/tickets/*' do
+  "/tickets/#{ item[:university].dirify }/#{ item[:year].dirify }/#{ item[:discipline].dirify }/#{ item[:title].dirify }.html"
+end
+
+route '*' do
+  if item.binary?
+    # Write item with identifier /foo/ to /foo.ext
+    [ item.identifier.chop, item[:extension] ].join(".")
+  else
+    # Write item with identifier /foo/ to /foo/index.html
+     item.identifier + 'index.html'
+  end
+end
+
+#----------------------------------------------------------
+# Compiles
+#----------------------------------------------------------
+
+compile '/links/' do
+  filter :haml
+  layout 'default'
+end
+
+compile '/links/*' do
+  filter :erb
+end
+
+compile '/assets/*' do
+  # don't filter or layout
+end
+
+compile '/sitemap/' do
+  filter :erb
+end
+
+compile /^\/(robots|favicon)\/$/ do
+  # don't filter or layout
+end
+
+compile '/notes/' do
+  filter :haml
+#  filter :russian_quotes
+  layout 'default'
+end
+
+compile '/notes/*' do
+  filter :erb
+  layout 'notes'
+  layout 'default'
+end
+
+compile '/history/' do
+  filter :haml
+#  filter :russian_quotes
+  layout 'default'
+end
+
+compile '/tickets/' do
+  filter :haml
+#  filter :erb
+#  filter :russian_quotes
+  layout 'default'
+end
+
+compile '/history/*' do
+  filter :erb
+  filter :russian_quotes
+  filter :outline, :numbering => true, :numbering_start => 1, :toc_style => 'ol', :toc_range => 'h2-h4', :title => "<h2>Содержание</h2>\n\n"
+  layout 'history'
+  layout 'default'
+end
+
+
+compile '/tickets/*' do
+  filter :erb
+  filter :russian_quotes
+  filter :outline, :numbering => true, :numbering_start => 1, :toc_style => 'ol', :toc_range => 'h4-h4'
+  layout 'tickets'
+  layout 'default'
+end
+
+compile '/' do
+  if item.binary?
+    # don't filter binary items
+  else
+    filter :haml
+    layout 'default'
+  end
+end
+
+#layout '*', :haml, {:format => :html5, :attr_wrapper => '"'}
+layout '*', :haml, {:attr_wrapper => '"'}
+

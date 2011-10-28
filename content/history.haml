@@ -1,0 +1,16 @@
+---
+title:      Все исторические статьи
+changefreq: daily
+---
+%h1= item[:title]
+- timeline = ["Античность","Средние века", "Возрождение", "Новое время","Новейшее время"]
+- items.select{ |itm| itm[:age] }.inject( {} ){ |result,itm|
+-  result.update( { itm[:age] => [itm] } ){ |k,o,n| o + n }
+- }.sort_by{ |age, itms| timeline.index(age) }.map{ |age, itms|
+%h2= age
+%ul
+  - itms.sort_by{ |itm| itm[:title] }.each{ |itm|
+  %li= link_to(itm[:title], itm)
+  - }
+- }
+

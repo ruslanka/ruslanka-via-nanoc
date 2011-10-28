@@ -1,0 +1,6 @@
+%h1= item[:title]
+%p<
+  %a{:href => item[:source]}> #{item[:author]}
+  = ", "+item[:created_at].strftime("%d.%m.%Y")
+= yield
+
